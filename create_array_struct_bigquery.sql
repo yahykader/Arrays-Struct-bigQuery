@@ -73,4 +73,21 @@ GROUP BY name, location, price_range;
 
 
 
+# Create nested records from arrays of structs
+#standardSQL
+CREATE OR REPLACE TABLE `array_struct_demo.restaurant` AS (
+SELECT "North America" as region, [
+STRUCT("Cafe Pacific" AS name, "North York" AS location, STRUCT(["European", "Casual", "Wine bar"] AS cuisine_array, "100 $" AS price_range, False AS has_delivery) AS basic_info),
+STRUCT("Boston Pizza" AS name, "Toronto" AS location, STRUCT(["Italian", "Pizza", "Fast-food"] AS cuisine_array, "50 $" AS price_range, True AS has_delivery) AS basic_info),
+STRUCT("Spice on the Streets" AS name, "New York" AS location, STRUCT(["Indian", "Casual"] AS cuisine_array, "50 $" AS price_range, True AS has_delivery) AS basic_info),
+STRUCT("Sushi Bar" AS name, "LA" AS location, STRUCT(["Japanese", "Sushi", "Casual"] AS cuisine_array, "150 $" AS price_range, False AS has_delivery) AS basic_info)] AS restaurant
+
+UNION ALL
+
+SELECT "Europe" as region, [
+STRUCT("Pizza Pizza" AS name, "Paris" AS location, STRUCT(["Pizza"] AS cuisine_array, "200 $" AS price_range, False AS has_delivery) AS basic_info),
+STRUCT("Cafe Coffe Day" AS name, "London" AS location, STRUCT(["French", "Bistro"] AS cuisine_array, "60 $" AS price_range, False AS has_delivery) AS basic_info)] AS restaurant);
+
+
+
 
